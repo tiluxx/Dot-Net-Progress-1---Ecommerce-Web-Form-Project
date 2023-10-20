@@ -1,0 +1,177 @@
+﻿@page
+@using System.Globalization;
+@model DotNetTechWebFormProject.Pages.OrderManagementModel
+@{
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-flex align-items-stretch">
+            <div class="card w-100">
+                <div class="card-body">
+                    <form name="createOrderForm" id="createOrderForm" method="post">
+                        <div class="d-flex mb-4 justify-content-between align-items-center">
+                            <h5 class="card-title fw-semibold mb-4">Order Item</h5>
+                            <button type="submit" class="btn btn-primary">Create order</button>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 d-flex align-items-stretch">
+                                <div class="card w-100">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex mb-4 justify-content-between align-items-center">
+                                            <h5 class="mb-0 fw-bold">Customer list</h5>
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-borderless align-middle text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Customer ID</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var customer in Model.customerParameterList)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="chooseCustomer" value="@customer.CustomerID" id="chooseCustomerRadio">
+                                                                    <label class="form-check-label" for="chooseCustomerRadio">
+                                                                        <span class="mb-1 fw-bolder text-primary">@customer.CustomerID</span>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td colspan="2">
+                                                                <p class="fs-3 fw-normal mb-0">@customer.CustomerName</p>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 d-flex align-items-stretch">
+                                <div class="card w-100">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex mb-4 justify-content-between align-items-center">
+                                            <h5 class="mb-0 fw-bold">Item list</h5>
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-borderless align-middle text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"></th>
+                                                        <th scope="col">Item ID</th>
+                                                        <th scope="col">Item name</th>
+                                                        <th scope="col">Size</th>
+                                                        <th scope="col">Unit Size</th>
+                                                        <th scope="col">Brand</th>
+                                                        <th scope="col">Origin</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.itemParameterList)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" name="chooseProduct" value="@item.ItemId">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <h6 class="mb-1 fw-bolder text-primary">@item.ItemId</h6>
+                                                            </td>
+                                                            <td>
+                                                                <p class="fs-3 fw-normal mb-0">@item.ItemName</p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="fs-3 fw-normal mb-0">@item.ItemSize</p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="fs-3 fw-normal mb-0">@item.ItemUnitSize</p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="fs-3 fw-normal mb-0">@item.ItemBrand</p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="fs-3 fw-normal mb-0">@item.ItemOrigin</p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="fs-3 fw-normal mb-0">@item.ItemQuantity</p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="fs-3 fw-normal mb-0">@item.ItemPrice.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</p>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="row">
+        <div class="d-flex align-items-stretch">
+            <div class="card w-100">
+                <div class="card-body p-4">
+                    <div class="d-flex mb-4 justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">Order list</h5>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th scope="col">Order ID</th>
+                                    <th scope="col">Order date</th>
+                                    <th scope="col">Customer name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in Model.orderParameterList)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a 
+                                                class="btn btn-outline-link" 
+                                                asp-area="" 
+                                                asp-page="/Auth/OrderView" 
+                                                asp-page-handler="OrderId"
+                                                asp-route-orderid="@order.OrderID">View order</a>
+                                        </td>
+                                        <td>
+                                            <h6 class="mb-1 fw-bolder text-primary">@order.OrderID</h6>
+                                        </td>
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@order.OrderDate.ToString("MMMM dd yyyy, hh:mm: tt", CultureInfo.InvariantCulture)</p>
+                                        </td>
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@order.CustomerID</p>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,116 @@
+﻿@page
+@using System.Globalization;
+@model DotNetTechWebFormProject.Pages.OrderViewModel
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-flex align-items-stretch">
+            <div class="card w-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title fw-semibold mb-4">Order view</h5>
+                        <div class="d-flex">
+                            <a class="btn btn-light me-2"
+                                asp-area=""
+                                asp-page="/Auth/OrderView"
+                                asp-page-handler="PrintReport"
+                                asp-route-orderid="@Model.GetOrder().OrderID">
+                                Print report
+                            </a>
+                            <a class="btn btn-success"
+                               asp-area=""
+                               asp-page="/Auth/OrderView"
+                               asp-page-handler="CreatePayment"
+                               asp-route-orderid="@Model.GetOrder().OrderID">
+                                Checkout
+                            </a>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body p-4">
+                                    <div class="d-flex mb-4 justify-content-between align-items-center">
+                                        <h5 class="mb-0 fw-bold">Order info</h5>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless align-middle text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Order ID</th>
+                                                    <th scope="col">Order date</th>
+                                                    <th scope="col">Customer name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <h6 class="mb-1 fw-bolder text-primary">@Model.GetOrder().OrderID</h6>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fs-3 fw-normal mb-0">@Model.GetOrder().OrderDate.ToString("MMMM dd yyyy, hh:mm: tt", CultureInfo.InvariantCulture)</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="fs-3 fw-normal mb-0">@Model.GetOrder().CustomerID</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-body p-4">
+                                    <div class="d-flex mb-4 justify-content-between align-items-center">
+                                        <h5 class="mb-0 fw-bold">Order detail</h5>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless align-middle text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Item ID</th>
+                                                    <th scope="col">Item name</th>
+                                                    <th scope="col">Quantity</th>
+                                                    <th scope="col">Unit amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var orderDetail in Model.orderDetailParameterList)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <h6 class="mb-1 fw-bolder text-primary">@orderDetail.OrderDetailID</h6>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fs-3 fw-normal mb-0">@orderDetail.ItemId</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fs-3 fw-normal mb-0">@orderDetail.ItemName</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fs-3 fw-normal mb-0">@orderDetail.Quantity</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fs-3 fw-normal mb-0">@orderDetail.UnitAmount</p>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

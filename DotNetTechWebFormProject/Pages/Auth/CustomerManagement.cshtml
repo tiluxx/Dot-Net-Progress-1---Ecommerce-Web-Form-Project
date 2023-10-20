@@ -1,0 +1,135 @@
+﻿@page
+@model DotNetTechWebFormProject.Pages.CustomerManagementModel
+@{
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-flex align-items-stretch">
+            <div class="card w-100">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-4">Customer management</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <form name="addCustomerItemForm" id="addNewCustomerForm" method="post" asp-page-handler="AddCustomer">
+                                <div class="row">
+                                    <div class="col-4 mb-3">
+                                        <label for="customerIdInput" class="form-label">Customer ID</label>
+                                        <input type="text" class="form-control" name="customerId" value="" id="customerIdInput" aria-describedby="customerIdHelp" readonly>
+                                    </div>
+                                    <div class="col-8 col-md-8 mb-3">
+                                        <label for="customerNameInput" class="form-label">Name</label>
+                                        <input type="text" class="form-control" name="customerName" value="" id="customerNameInput">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label for="customerAddressInput" class="form-label">Address</label>
+                                        <input type="text" class="form-control" name="address" value="" id="customerAddressInput">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Create customer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="d-flex align-items-stretch">
+            <div class="card w-100">
+                <div class="card-body p-4">
+                    <div class="d-flex mb-4 justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">Customer list</h5>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th scope="col">Customer ID</th>
+                                    <th scope="col">Customer name</th>
+                                    <th scope="col">Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var customer in Model.customerParameterList)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button data-bs-toggle="dropdown"
+                                                        aria-expanded="false"
+                                                        class="btn-transparent btn-sm px-1 btn shadow-none d-flex align-items-center">
+                                                    <span class="mr-2">Action</span>
+                                                    <i class="ti ti-caret-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-start">
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            asp-area=""
+                                                            asp-page="/Auth/CustomerEditing"
+                                                            asp-page-handler="CustomerId"
+                                                            asp-route-customerid="@customer.CustomerID">Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a 
+                                                            class="dropdown-item text-danger delete-action-btn"
+                                                            data-id="@customer.CustomerID"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#deleteConfirmModal">Delete</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <h6 class="mb-1 fw-bolder text-primary">@customer.CustomerID</h6>
+                                        </td>
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@customer.CustomerName</p>
+                                        </td>
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@customer.CustomerAddress</p>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteCustomerForm" id="deleteCustomerForm" method="post" asp-page-handler="DeleteCustomer">
+                <div class="modal-header">
+                    <h1 class="modal-title text-danger fs-5" id="exampleModalLabel">Delete this customer?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This action cannot undo</p>
+                    <input type="hidden" name="customerId" id="customerIdInputHidden" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                    <button type="button" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).on("click", ".delete-action-btn", function () {
+        const curCustomerId = $(this).data('id');
+        $(".modal-body #customerIdInputHidden").val(curCustomerId);
+    });
+</script>

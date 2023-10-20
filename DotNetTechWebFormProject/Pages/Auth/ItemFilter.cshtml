@@ -1,0 +1,186 @@
+﻿@page
+@model DotNetTechWebFormProject.Pages.Auth.ItemFilterModel
+@{
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-flex align-items-stretch">
+            <div class="card w-100">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-4">Item filter</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <form name="itemFilterForm" id="itemFilterForm" method="post" asp-page-handler="ItemFilter">
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="itemFilterOption" value="BestSellingItem" id="itemFilterRadio">
+                                            <label class="form-check-label" for="itemFilterRadio">
+                                                <span class="mb-1 fw-bolder text-primary">Best selling items</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="itemFilterOption" value="ItemsPurchasedByCustomers" id="itemFilterRadio">
+                                            <label class="form-check-label" for="itemFilterRadio">
+                                                <span class="mb-1 fw-bolder text-primary">Items purchased by customers</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-8 mb-3">
+                                        <div class="form-check">
+                                            <label for="itemIdInput" class="form-label">Item ID to filter</label>
+                                            <input type="text" class="form-control" name="itemId" id="itemIdInput">
+                                        </div>
+                                    </div>
+                                    <div class="col-4 mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="itemFilterOption" value="CustomerPurchasesItems" id="itemFilterRadio">
+                                            <label class="form-check-label" for="itemFilterRadio">
+                                                <span class="mb-1 fw-bolder text-primary">Customer purchases items</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-8 mb-3">
+                                        <div class="form-check">
+                                            <label for="customerIdInput" class="form-label">Customer ID to filter</label>
+                                            <input type="text" class="form-control" name="customerId" id="customerIdInput">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Show items</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="d-flex align-items-stretch">
+            <div class="card w-100">
+                <div class="card-body p-4">
+                    <div class="d-flex mb-4 justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">Item list</h5>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Item ID</th>
+                                    <th scope="col">Item name</th>
+                                    @if (Model.itemParameterList.Count > 0 && Model.itemParameterList[0].CustomerName != "")
+                                    {
+                                        <th scope="col">Customer</th>
+                                    }
+                                    <th scope="col">Size</th>
+                                    <th scope="col">Unit Size</th>
+                                    <th scope="col">Brand</th>
+                                    <th scope="col">Origin</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.itemParameterList)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button data-bs-toggle="dropdown"
+                                                        aria-expanded="false"
+                                                        class="btn-transparent btn-sm px-1 btn shadow-none d-flex align-items-center">
+                                                    Action<i class="ti ti-caret-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-start">
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                           asp-area=""
+                                                           asp-page="/Auth/ItemEditing"
+                                                           asp-page-handler="ItemId"
+                                                           asp-route-itemid="@item.ItemId">Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item text-danger delete-action-btn"
+                                                           data-id="@item.ItemId"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#deleteConfirmModal">Delete</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <h6 class="mb-1 fw-bolder text-success">@item.ItemId</h6>
+                                        </td>
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@item.ItemName</p>
+                                        </td>
+                                        @if (item.CustomerName != "")
+                                        {
+                                            <td>
+                                                <p class="fs-3 fw-normal mb-0">@item.CustomerName</p>
+                                            </td>
+                                        }
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@item.ItemSize</p>
+                                        </td>
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@item.ItemUnitSize</p>
+                                        </td>
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@item.ItemBrand</p>
+                                        </td>
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@item.ItemOrigin</p>
+                                        </td>
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@item.ItemQuantity</p>
+                                        </td>
+                                        <td>
+                                            <p class="fs-3 fw-normal mb-0">@item.ItemPrice.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</p>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteItemForm" id="deleteItemForm" method="post">
+                <div class="modal-header">
+                    <h1 class="modal-title text-danger fs-5" id="exampleModalLabel">Delete this item?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This action cannot undo</p>
+                    <input type="hidden" name="itemId" id="itemIdInputHidden" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                    <button type="button" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).on("click", ".delete-action-btn", function () {
+        const curItemId = $(this).data('id');
+        $(".modal-body #itemIdInputHidden").val(curItemId);
+    });
+</script>

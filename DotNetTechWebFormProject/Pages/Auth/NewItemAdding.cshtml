@@ -1,0 +1,77 @@
+﻿@page
+@using System.Globalization;
+@model DotNetTechWebFormProject.Pages.NewItemAddingModel
+@{
+    ViewData["Title"] = "Item management";
+    List<string> countryList = new List<string>();
+    CultureInfo[] getCultureInfo = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+    foreach (CultureInfo getCulture in getCultureInfo)
+    {
+        RegionInfo getRegionInfo = new RegionInfo(getCulture.Name);
+        if (!countryList.Contains(getRegionInfo.EnglishName))
+        {
+            countryList.Add(getRegionInfo.EnglishName);
+        }
+    }
+    countryList.Sort();
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Item management</h5>
+            <div class="card">
+                <div class="card-body">
+                    <form name="addNewItemForm" id="addNewItemForm" method="post">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="itemNameInput" class="form-label">Item name</label>
+                                <input type="text" class="form-control" name="itemName" id="itemNameInput" aria-describedby="itemNameHelp">
+                            </div>
+                            <div class="col-12 col-md-8 mb-3">
+                                <label for="itemSizeInput" class="form-label">Item size</label>
+                                <input type="text" class="form-control" name="itemSize" id="itemSizeInput">
+                            </div>
+                            <div class="col-12 col-md-4 mb-3">
+                                <label for="itemUnitSizeInput" class="form-label">Unit size</label>
+                                <select name="itemUnitSize" id="itemUnitSizeInput" class="form-select">
+                                    <option value="m">m</option>
+                                    <option value="dm">dm</option>
+                                    <option value="cm">cm</option>
+                                    <option value="mm">mm</option>
+                                    <option value="inches">inches</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-8 mb-3">
+                                <label for="itemBrandInput" class="form-label">Item brand</label>
+                                <input type="text" class="form-control" name="itemBrand" id="itemBrandInput">
+                            </div>
+                            <div class="col-12 col-md-4 mb-3">
+                                <label for="itemOriginInput" class="form-label">Origin</label>
+                                <select name="itemOrigin" id="itemOriginInput" class="form-select">
+                                    @foreach (string country in countryList)
+                                    {
+                                        <option value="@country">@country</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <label for="itemQuanInput" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" name="itemQuantity" id="itemQuanInput">
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <label for="itemPriceInput" class="form-label">Price</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">VND</span>
+                                    <input type="number" class="form-control" name="itemPrice" id="itemPriceInput">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="form-control" id="itemIdPrivate">
+                        <button type="submit" class="btn btn-primary">Add item</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

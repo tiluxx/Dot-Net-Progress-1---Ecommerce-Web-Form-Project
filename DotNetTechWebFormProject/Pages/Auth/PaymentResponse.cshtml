@@ -1,0 +1,38 @@
+﻿@page
+@model DotNetTechWebFormProject.Pages.Auth.PaymentResponseModel
+@{
+}
+
+<div class="container-fluid">
+    <div class="d-flex align-items-stretch">
+        <div class="card w-100">
+            <div class="card-body p-4">
+                <div class="mb-4">
+                    <div class="row text-center">
+                        <div class="col-12 mb-2">
+                            <h5 class="mb-0 fw-bold">Payment response</h5>
+                        </div>
+                        <div class="col-12 mb-4">
+                            @if (Model.Message != null)
+                            {
+                                <h6 class="mb-0 text-success">Your payment @Model.Message is performed successfully</h6>
+                            }
+                            else
+                            {
+                                <h6 class="mb-0 text-danger">Something went wrong</h6>
+                            }
+                        </div>
+                        <div class="col-12">
+                            <a class="btn btn-primary me-2"
+                               asp-area=""
+                               asp-page="/Auth/Index">
+                                Back to Home
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

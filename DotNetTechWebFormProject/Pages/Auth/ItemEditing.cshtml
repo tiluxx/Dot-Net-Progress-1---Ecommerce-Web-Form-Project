@@ -1,0 +1,92 @@
+﻿@page
+@using System.Globalization;
+@model DotNetTechWebFormProject.Pages.ItemEditingModel
+@{
+    ViewData["Title"] = "Item management";
+    List<string> countryList = new List<string>();
+    string[] unitSizeList = { "m", "dm", "cm", "mm", "inches" };
+
+    CultureInfo[] getCultureInfo = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+    foreach (CultureInfo getCulture in getCultureInfo)
+    {
+        RegionInfo getRegionInfo = new RegionInfo(getCulture.Name);
+        if (!countryList.Contains(getRegionInfo.EnglishName))
+        {
+            countryList.Add(getRegionInfo.EnglishName);
+        }
+    }
+    countryList.Sort();
+}
+
+<div class="container-fluid d-flex align-items-stretch">
+    <div class="card w-100">
+        <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Updating Item</h5>
+            <div class="card">
+                <div class="card-body">
+                    <form name="editItemForm" id="editItemForm" method="post">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="itemNameInput" class="form-label">Item name</label>
+                                <input type="text" class="form-control" name="itemName" value="@Model.GetCurItem().ItemName" id="itemNameInput" aria-describedby="itemNameHelp">
+                            </div>
+                            <div class="col-12 col-md-8 mb-3">
+                                <label for="itemSizeInput" class="form-label">Item size</label>
+                                <input type="text" class="form-control" name="itemSize" value="@Model.GetCurItem().ItemSize" id="itemSizeInput">
+                            </div>
+                            <div class="col-12 col-md-4 mb-3">
+                                <label for="itemUnitSizeInput" class="form-label">Unit size</label>
+                                <select id="itemUnitSizeInput" name="itemUnitSize" class="form-select">
+                                    @foreach (string unitSize in unitSizeList)
+                                    {
+                                        if (unitSize == Model.GetCurItem().ItemUnitSize)
+                                        {
+                                            <option value="@unitSize" selected>@unitSize</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@unitSize">@unitSize</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-8 mb-3">
+                                <label for="itemBrandInput" class="form-label">Item brand</label>
+                                <input type="text" class="form-control" name="itemBrand" value="@Model.GetCurItem().ItemBrand" id="itemBrandInput">
+                            </div>
+                            <div class="col-12 col-md-4 mb-3">
+                                <label for="itemOriginInput" class="form-label">Origin</label>
+                                <select id="itemOriginInput" name="itemOrigin" class="form-select">
+                                    @foreach (string country in countryList)
+                                    {
+                                        if (country == @Model.GetCurItem().ItemOrigin)
+                                        {
+                                            <option value="@country" selected>@country</option>
+                                        } else
+                                        {
+                                            <option value="@country">@country</option>
+                                        }
+                                    }
+                                    
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <label for="itemQuanInput" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" name="itemQuantity" value="@Model.GetCurItem().ItemQuantity" id="itemQuanInput">
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <label for="itemPriceInput" class="form-label">Price</label>
+                                <input type="number" class="form-control" name="itemPrice" value="@Model.GetCurItem().ItemPrice" id="itemPriceInput">
+                            </div>
+                        </div>
+                        <input type="hidden" class="form-control" name="itemId" value="@Model.GetItemId()" id="itemIdPrivate">
+                        <button type="submit" class="btn btn-primary me-2">Update item</button>
+                        <a class="btn btn-light"
+                            asp-area=""
+                            asp-page="/Auth/ItemDashboard" >Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

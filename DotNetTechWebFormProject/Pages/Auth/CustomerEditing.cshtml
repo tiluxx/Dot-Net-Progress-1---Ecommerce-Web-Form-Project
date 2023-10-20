@@ -1,0 +1,36 @@
+﻿@page
+@model DotNetTechWebFormProject.Pages.CustomerEditingModel
+@{
+}
+
+<div class="container-fluid d-flex align-items-stretch">
+    <div class="card w-100">
+        <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Updating customer</h5>
+            <div class="card">
+                <div class="card-body">
+                    <form name="editCustomerItemForm" id="editNewCustomerForm" method="post">
+                        <div class="row">
+                            <div class="col-4 mb-3">
+                                <label for="customerIdInput" class="form-label">Customer ID</label>
+                                <input type="text" class="form-control" name="customerId" value="@Model.GetCurCustomer().CustomerID" id="customerIdInput" aria-describedby="customerIdHelp" readonly>
+                            </div>
+                            <div class="col-8 col-md-8 mb-3">
+                                <label for="customerNameInput" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="customerName" value="@Model.GetCurCustomer().CustomerName" id="customerNameInput">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="customerAddressInput" class="form-label">Address</label>
+                                <input type="text" class="form-control" name="address" value="@Model.GetCurCustomer().CustomerAddress" id="customerAddressInput">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">Update customer</button>
+                        <a class="btn btn-light"
+                           asp-area=""
+                           asp-page="/Auth/CustomerManagement">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
