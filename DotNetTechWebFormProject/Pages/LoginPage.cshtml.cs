@@ -1,3 +1,4 @@
+using DotNetTechWebFormProject.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -5,27 +6,27 @@ namespace DotNetTechWebFormProject.Pages
 {
     public class LoginPageModel : PageModel
     {
-        public string message = "";
+        private ResponseStatus res;
 
-        public void OnGet()
+        public ResponseStatus GetResponseStatus()
         {
+            return res;
         }
 
-        public void OnPost(string username, string password) 
+        public IActionResult OnGet()
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (Request.Query.ContainsKey("token"))
             {
-                message = "Please enter username and password";
-                return;
+                string token = "3242fEFWEWEFW43FGGWwe";
+                if (Request.Query["username"] == "admin" && Request.Query["token"] == token)
+                {
+                    HttpContext.Session.SetString("username", Request.Query["username"]);
+                    return Redirect("/Auth/Index");
+                }
             }
 
-            if (username != "admin" && password != "123456")
-            {
-                message = "Invalid username or password";
-                return;
-            }
-
-            Redirect("/Auth/Index");
+            res = new ResponseStatus(false, "Invalid or expired URL");
+            return Page();
         }
     }
 }

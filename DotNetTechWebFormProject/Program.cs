@@ -1,4 +1,5 @@
 using DotNetTechWebFormProject.Utils;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace DotNetTechWebFormProject
 {
@@ -13,6 +14,7 @@ namespace DotNetTechWebFormProject
             builder.Services.AddSession();
             builder.Services.AddScoped<PDFGenerator>();
             builder.Services.AddScoped<IVnPayController, VnPayController>();
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
 
             var app = builder.Build();
 
